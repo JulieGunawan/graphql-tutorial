@@ -12,11 +12,22 @@ const typeDefs = `#graphql
     author: String
   }
 
+  type User {
+    name:String
+    email:String
+    age:Int
+  }
+
+  type Project {
+    title:String
+    active:Boolean
+    members:[User]
+  }
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    books: [Book]
+    users: [User]
   }
 `;
 // An array of books, instead of database to test
@@ -30,15 +41,29 @@ const books = [
         author: "Paul Auster",
     },
 ];
+const users = [
+    {
+        name: "John",
+        email: "john@email.com",
+        age: 30,
+        projects: [{ title: "Site Upgrade - Summer 2021" }],
+    },
+    {
+        name: "Jane",
+        email: "jane@email.com",
+        age: 25,
+        projects: [{ title: "Site Upgrade - Summer 2021" }],
+    },
+];
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-        books: () => books,
+        users: () => users,
     },
 };
 // The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
+// definition (typeDefs) and your set of resolvers.
 const server = new ApolloServer({
     typeDefs,
     resolvers,
