@@ -16,6 +16,7 @@ const typeDefs = `#graphql
     name:String
     email:String
     age:Int
+    projects:[Project]
   }
 
   type Project {
